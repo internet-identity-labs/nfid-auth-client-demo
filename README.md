@@ -1,10 +1,11 @@
-# Auth-Client Demo
+# NFID Auth-Client Demo
 
-This is an example project, intended to demonstrate how an app developer might integrate with an [Internet Identity](https://identity.ic0.app).
+This is an example project, intended to demonstrate how an app developer might integrate with [NFID](nfid.one).
 
-For a non-typescript implementation, see https://github.com/krpeacock/auth-client-demo/tree/vanilla-js
+TODO this:
+// For a non-typescript implementation, see https://github.com/internet-identity-labs/nfid-auth-client-demo/tree/vanilla-js
 
-[Live demo](https://vasb2-4yaaa-aaaab-qadoa-cai.ic0.app/)
+[Live demo](https://hvn26-aiaaa-aaaak-aaa2a-cai.ic0.app/)
 
 This is an example showing how to use [@dfinity/auth-client](https://www.npmjs.com/package/@dfinity/auth-client).
 
@@ -22,22 +23,46 @@ To learn more before you start working with auth_demo, see the following documen
 To get started, start a local dfx development environment in this directory with the following steps:
 
 ```bash
-cd auth-client-demo/
+cd nfid-auth-client-demo/
+yarn
 dfx start --background --clean
 dfx deploy
 ```
 
-Then, make sure you have the [Internet Identity](https://github.com/dfinity/internet-identity) repo cloned locally, adjacent to this project. 
-
-```bash
-cd ../internet-identity
-rm -rf .dfx/local
-II_FETCH_ROOT_KEY=1 II_DUMMY_CAPTCHA=1  dfx deploy --no-wallet --argument '(null)'
-pushd
+Make sure to update the name of your application so it displays to the user during authentication
+```js
+// line 22 in src/auth_client_demo_assets/src/index.ts
+const APPLICATION_NAME = "Your%20Application%20Name";
 ```
 
-Copy the canister ID fom the Internet Identity canister, and paste it into `webpack.config.js` in this project on the `LOCAL_II_CANISTER` variable on line `8`.
+### To make authenticated calls on your local replica
 
-Finally, cd back into the auth-client-demo directory and start the development server with `npm start`.
+To make authenticated calls on your local replica, you will need the [NFID-SDK](https://github.com/internet-identity-labs/NFID-SDK) repo cloned locally, adjacent to this project. 
+
+```bash
+cd ../nfid-sdk
+DFX_VERSION=0.9.3 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
+yarn
+rm -rf .dfx/local
+cd examples/create-ic-app-react-demo
+rm -rf .dfx/local
+yarn deploy:local
+yarn serve:nfid-frontend
+```
+
+Next, [download](https://ngrok.com/download) the ngrok zip file for your machine and unpack the binary to `NFID-SDK/examples/create-ic-app-react-demo/scripts`, then run `yarn tunnel` from within that directory.
+```bash
+# in a new terminal window, cd to scripts directory where you've unpacked the ngrok binary
+cd scripts
+yarn tunnel
+```
+Paste the assigned domain from ngrok output to the `LOCAL_NGROK_TUNNEL_DOMAIN` variable on line `13` of `webpack.config.js`
+![running-ngrok](./running-ngrok.png)
+
+Finally, cd back into the `nfid-auth-client-demo` and run `npm start`
+```bash
+cd ../../../../nfid-auth-client-demo
+npm start
+```
 
 You can now access the app at `http://localhost:8080`.
