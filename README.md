@@ -1,9 +1,8 @@
 # NFID Auth-Client Demo
 
-This is an example project, intended to demonstrate how an app developer might integrate with [NFID](nfid.one).
+This is an example project, intended to demonstrate how an app developer might integrate with [NFID](https://nfid.one).
 
-TODO this:
-// For a non-typescript implementation, see https://github.com/internet-identity-labs/nfid-auth-client-demo/tree/vanilla-js
+For a typescript implementation, see https://github.com/internet-identity-labs/nfid-auth-client-demo/tree/feature/nfid-auth-client-demo
 
 [Live demo](https://hvn26-aiaaa-aaaak-aaa2a-cai.ic0.app/)
 
