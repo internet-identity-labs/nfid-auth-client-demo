@@ -4,9 +4,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
-// Replace this value with the ID of your local Internet Identity canister
-const LOCAL_II_CANISTER =
-  "http://rkp4c-7iaaa-aaaaa-aaaca-cai.localhost:8000/#authorize";
+// Replace this value with the ngrok tunnel domain
+const LOCAL_NGROK_TUNNEL_DOMAIN =
+"https://461f5dd42f52.ngrok.io";
+
+const LOCAL_NFID_CANISTER =
+LOCAL_NGROK_TUNNEL_DOMAIN;
 
 let localCanisters, prodCanisters, canisters;
 
@@ -107,7 +110,7 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: isDevelopment ? "development" : "production",
       WHOAMI_CANISTER_ID: canisters["whoami"],
-      LOCAL_II_CANISTER,
+      LOCAL_NFID_CANISTER,
       DFX_NETWORK: process.env.DFX_NETWORK || "local",
     }),
     new webpack.ProvidePlugin({
