@@ -32,6 +32,10 @@ const init = async () => {
           : process.env.LOCAL_NFID_CANISTER+"/authenticate/?applicationName="+APPLICATION_NAME+"#authorize",
       // Maximum authorization expiration is 8 days
       maxTimeToLive: days * hours * nanoseconds,
+      windowOpenerFeatures: 
+        `left=${window.screen.width / 2 - 200}, `+
+        `top=${window.screen.height / 2 - 300},` +
+        `toolbar=0,location=0,menubar=0,width=400,height=600`
     });
   };
 };
