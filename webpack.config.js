@@ -11,7 +11,7 @@ const network =
 // Replace this value with the ID of your local NFID canister
 const LOCAL_NGROK_TUNNEL_DOMAIN =
 "https://461f5dd42f52.ngrok.io";
-// "https://3y5ko-7qaaa-aaaal-aaaaq-cai.ic0.app";
+// "https://nfid.one";
 
 const LOCAL_NFID_CANISTER =
 LOCAL_NGROK_TUNNEL_DOMAIN;
