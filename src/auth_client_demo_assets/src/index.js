@@ -27,7 +27,7 @@ const init = async () => {
       identityProvider:
         process.env.DFX_NETWORK === "ic"
           ? "https://nfid.one/authenticate/?applicationName="+APPLICATION_NAME+"&applicationLogo="+APPLICATION_LOGO_URL+"#authorize"
-          : process.env.LOCAL_NFID_CANISTER+"/authenticate/?applicationName="+APPLICATION_NAME+"#authorize",
+          : process.env.LOCAL_NFID_CANISTER+"/authenticate/?applicationName="+APPLICATION_NAME+"&applicationLogo="+APPLICATION_LOGO_URL+"#authorize",
       // Maximum authorization expiration is 8 days
       maxTimeToLive: days * hours * nanoseconds,
       windowOpenerFeatures: 
