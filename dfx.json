@@ -1,8 +1,24 @@
 {
   "canisters": {
+    "internet_identity": {
+      "type": "custom",
+      "candid": "src/internet_identity/internet_identity.did",
+      "wasm": "internet_identity.wasm",
+      "build": "curl -sSL https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm -o internet_identity.wasm"
+    },
     "whoami": {
       "main": "src/whoami/main.mo",
       "type": "motoko"
+    },
+    "identity_manager": {
+      "type": "custom",
+      "candid": "src/identity_manager/identity_manager.did",
+      "wasm": "src/identity_manager/identity_manager.wasm"
+    },
+    "pub_sub_channel": {
+      "type": "custom",
+      "candid": "src/pub_sub_channel/pub_sub_channel.did",
+      "wasm": "src/pub_sub_channel/pub_sub_channel.wasm"
     },
     "auth_client_demo_assets": {
       "dependencies": ["whoami"],
@@ -22,7 +38,6 @@
       "packtool": ""
     }
   },
-  "dfx": "0.9.3",
   "networks": {
     "local": {
       "bind": "127.0.0.1:8000",
