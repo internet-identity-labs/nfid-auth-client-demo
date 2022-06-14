@@ -17,10 +17,12 @@ const init = async () => {
 
   const days = BigInt(1);
   const hours = BigInt(24);
-  const nanoseconds = BigInt(3600000000000);
+  const nanoseconds = BigInt(13500000000000);
 
   const APPLICATION_NAME = "Your%20Application%20Name";
   const APPLICATION_LOGO_URL = "https%3A%2F%2Flogo.clearbit.com%2Fclearbit.com"
+
+  const AUTH_PATH = "/authenticate/?applicationName="+APPLICATION_NAME+"&applicationLogo="+APPLICATION_LOGO_URL+"#authorize"
 
   loginButton.onclick = async () => {
     await authClient.login({
@@ -29,9 +31,9 @@ const init = async () => {
       },
       identityProvider:
         process.env.DFX_NETWORK === "ic"
-          ? "https://nfid.one/authenticate/?applicationName="+APPLICATION_NAME+"&applicationLogo="+APPLICATION_LOGO_URL+"#authorize"
-          : process.env.LOCAL_NFID_CANISTER+"/authenticate/?applicationName="+APPLICATION_NAME+"&applicationLogo="+APPLICATION_LOGO_URL+"#authorize",
-      // Maximum authorization expiration is 8 days
+          ? "https://nfid.one" + AUTH_PATH
+          : process.env.LOCAL_NFID_CANISTER + AUTH_PATH,
+      // Maximum authorization expiration is 30 days
       maxTimeToLive: days * hours * nanoseconds,
       windowOpenerFeatures: 
         `left=${window.screen.width / 2 - 200}, `+

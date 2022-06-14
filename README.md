@@ -1,21 +1,103 @@
-# NFID Auth-Client Demo
+<div style="display:table;text-align:center;width:'100%'">
+  <div style="display:table-cell">
+    What a new user sees
+    ![running-ngrok](./unregistered-device.png)
+  </div>
+  <div style="display:table-cell">
+    What an existing user sees
+    ![running-ngrok](./registered-device.png)
+  </div>
+</div>
+
+# Getting started with the NFID Auth-Client Demo
 
 This is an example project, intended to demonstrate how an app developer might integrate with [NFID](https://nfid.one).
 
 For a non-typescript implementation, see https://github.com/internet-identity-labs/nfid-auth-client-demo/tree/vanilla-js
 
-[Live demo](https://hvn26-aiaaa-aaaak-aaa2a-cai.ic0.app/)
+[Live demo on Kinic](https://kinic.io/)
 
-This is an example showing how to use [@dfinity/auth-client](https://www.npmjs.com/package/@dfinity/auth-client).
+To learn more before you start working with auth_demo, it may be helpful to review the [Internet Computer documentation](https://internetcomputer.org/docs/current/developer-docs/ic-overview).
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+## Requirements
 
-To learn more before you start working with auth_demo, see the following documentation available online:
+Make sure to update your @dfinity/agent, @dfinity/identity, and @dfinity/auth-client node packages to >0.11.0
 
-- [Quick Start](https://sdk.dfinity.org/docs/quickstart/quickstart-intro.html)
-- [SDK Developer Tools](https://sdk.dfinity.org/docs/developers-guide/sdk-guide.html)
-- [Motoko Programming Language Guide](https://sdk.dfinity.org/docs/language-guide/motoko.html)
-- [Motoko Language Quick Reference](https://sdk.dfinity.org/docs/language-guide/language-manual.html)
+## The authentication client
+
+Breaking down the authentication steps from the main [index.ts](https://github.com/internet-identity-labs/nfid-auth-client-demo/blob/feature/nfid-auth-client-demo/src/auth_client_demo_assets/src/index.ts) file, we need to:
+1. initialize an authClient and handle an already-authenticated user
+```
+  const authClient = await AuthClient.create();
+  if (await authClient.isAuthenticated()) {
+    handleAuthenticated(authClient);
+  }
+```
+2. prepare maxTimeToLive for the identity delegate of up to 30 days
+```
+  const days = BigInt(1);
+  const hours = BigInt(24);
+  const nanoseconds = BigInt(13500000000000);
+```
+3. customize your application and and logo (URI encoded)
+```
+  const APPLICATION_NAME = "Your%20Application%20Name";
+  const APPLICATION_LOGO_URL = "https%3A%2F%2Flogo.clearbit.com%2Fclearbit.com"
+```
+4. initialize a login click handler 
+```
+  loginButton.onclick = async () => {
+    await authClient.login({
+      onSuccess: async () => {
+        handleAuthenticated(authClient);
+      },
+      identityProvider:
+        process.env.DFX_NETWORK === "ic"
+          ? "https://nfid.one" + AUTH_PATH
+          : process.env.LOCAL_NFID_CANISTER + AUTH_PATH,
+      // Maximum authorization expiration is 30 days
+      maxTimeToLive: days * hours * nanoseconds,
+      windowOpenerFeatures: 
+        `left=${window.screen.width / 2 - 200}, `+
+        `top=${window.screen.height / 2 - 300},` +
+        `toolbar=0,location=0,menubar=0,width=400,height=600`
+    });
+  };
+```
+5. handle an authentication event
+```
+async function handleAuthenticated(authClient: AuthClient) {
+  const identity = (await authClient.getIdentity()) as unknown as Identity;
+  const whoami_actor = createActor(canisterId as string, {
+    agentOptions: {
+      identity,
+    },
+  });
+  // Invalidate identity then render login when user goes idle
+  authClient.idleManager?.registerCallback(() => {
+    Actor.agentOf(whoami_actor)?.invalidateIdentity?.();
+    // user has idled out - render your loggedOut logic
+  });
+
+  // user is logged in - render your loggedIn logic
+}
+```
+
+You've now bootstrapped a `whoami` actor! With this actor, you can make authenticated calls to your backend and retrieve the user's unique identifier for your app:
+
+Motoko
+```
+public shared (message) func whoami() : async Principal {
+    return message.caller;
+};
+```
+
+Rust
+```
+pub fn whoami() -> Principal { ic_cdk::api::caller() }
+```
+
+On the frontend, you may call `identity?.getPrincipal().toText()` to retrieve this user's unique identifier.
 
 ## Setting up for local development
 
@@ -28,15 +110,11 @@ dfx start --background --clean
 dfx deploy
 ```
 
-Make sure to update the name of your application so it displays to the user during authentication
-```js
-// line 22 in src/auth_client_demo_assets/src/index.ts
-const APPLICATION_NAME = "Your%20Application%20Name";
-```
+### Authenticated calls in your local replica
 
-### To make authenticated calls on your local replica
+At present, the Internet Computer's signatures don't allow actors created in production to make authenticated calls locally.
 
-To make authenticated calls on your local replica, you will need the [NFID-SDK](https://github.com/internet-identity-labs/NFID-SDK) repo cloned locally, adjacent to this project. 
+If you want to make authenticated calls on your local replica, you will need the [NFID-SDK](https://github.com/internet-identity-labs/NFID-SDK) repo cloned locally, adjacent to this project. 
 
 ```bash
 cd ../nfid-sdk
@@ -49,7 +127,15 @@ yarn deploy:local
 yarn serve:nfid-frontend
 ```
 
-Next, [download](https://ngrok.com/download) the ngrok zip file for your machine and unpack the binary to `NFID-SDK/examples/create-ic-app-react-demo/scripts`, then run `yarn tunnel` from within that directory.
+### Enabling QR code support in local development
+
+At present, we only support webauthn as a means of registering and authenticating with private keys. Because this complicates the UX for adding new devices, we've chosen to encourage users first register their most important device - their phone - by scanning a QR code displayed on non-mobile devices.
+
+Apple, Google, and Microsoft announced in May 2022 their upcoming support for passkeys, which has a similar flow and will decrease complexity of the NFID registration process once fully released.
+
+If you wish to test this flow locally, you'll need ngrok to create the tunnel.
+
+[Download](https://ngrok.com/download) the ngrok zip file for your machine and unpack the binary to `NFID-SDK/examples/create-ic-app-react-demo/scripts`, then run `yarn tunnel` from within that directory.
 ```bash
 # in a new terminal window, cd to scripts directory where you've unpacked the ngrok binary
 cd scripts
