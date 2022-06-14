@@ -1,11 +1,11 @@
 <div style="display:table;text-align:center;width:100%">
   <div style="display:table-cell">
     What a new user sees
-    ![running-ngrok](./unregistered-device.png)
+    <img src="unregistered-device.png" style="width:100%;max-width:200px;margin:auto;"></img>
   </div>
   <div style="display:table-cell">
     What an existing user sees
-    ![running-ngrok](./registered-device.png)
+    <img src="registered-device.png" style="width:100%;max-width:200px;margin:auto;"></img>
   </div>
 </div>
 
