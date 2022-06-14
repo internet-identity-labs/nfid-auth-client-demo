@@ -1,13 +1,4 @@
-<div style="display:table;text-align:center;width:100%">
-  <div style="display:table-cell">
-    What a new user sees
-    <img src="unregistered-device.png" style="width:100%;max-width:200px;margin:auto;"></img>
-  </div>
-  <div style="display:table-cell">
-    What an existing user sees
-    <img src="registered-device.png" style="width:100%;max-width:200px;margin:auto;"></img>
-  </div>
-</div>
+<img src="nfid.png" style="width:100%;max-width:500px;margin:auto;margin-bottom:50px"></img>
 
 # Getting started with the NFID Auth-Client Demo
 
