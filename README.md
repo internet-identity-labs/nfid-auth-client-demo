@@ -1,4 +1,4 @@
-<div style="display:table;text-align:center;width:'100%'">
+<div style="display:table;text-align:center;width:100%">
   <div style="display:table-cell">
     What a new user sees
     ![running-ngrok](./unregistered-device.png)
@@ -42,7 +42,7 @@ Breaking down the authentication steps from the main [index.ts](https://github.c
 3. customize your application and and logo (URI encoded)
 ```
   const APPLICATION_NAME = "Your%20Application%20Name";
-  const APPLICATION_LOGO_URL = "https%3A%2F%2Flogo.clearbit.com%2Fclearbit.com"
+  const APPLICATION_LOGO_URL = "https%3A%2F%2Flogo.clearbit.com%2Fclearbit.com";
 ```
 4. initialize a login click handler 
 ```
