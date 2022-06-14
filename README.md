@@ -18,25 +18,25 @@ Make sure to update your @dfinity/agent, @dfinity/identity, and @dfinity/auth-cl
 
 Breaking down the authentication steps from the main [index.ts](https://github.com/internet-identity-labs/nfid-auth-client-demo/blob/feature/nfid-auth-client-demo/src/auth_client_demo_assets/src/index.ts) file, we need to:
 1. initialize an authClient and handle an already-authenticated user
-```
+```js
   const authClient = await AuthClient.create();
   if (await authClient.isAuthenticated()) {
     handleAuthenticated(authClient);
   }
 ```
 2. prepare maxTimeToLive for the identity delegate of up to 30 days
-```
+```js
   const days = BigInt(1);
   const hours = BigInt(24);
   const nanoseconds = BigInt(13500000000000);
 ```
 3. customize your application name and logo (URI encoded)
-```
+```js
   const APPLICATION_NAME = "Your%20Application%20Name";
   const APPLICATION_LOGO_URL = "https%3A%2F%2Flogo.clearbit.com%2Fclearbit.com";
 ```
 4. initialize a login click handler 
-```
+```js
   loginButton.onclick = async () => {
     await authClient.login({
       onSuccess: async () => {
@@ -56,7 +56,7 @@ Breaking down the authentication steps from the main [index.ts](https://github.c
   };
 ```
 5. handle an authentication event
-```
+```js
 async function handleAuthenticated(authClient: AuthClient) {
   const identity = (await authClient.getIdentity()) as unknown as Identity;
   const whoami_actor = createActor(canisterId as string, {
