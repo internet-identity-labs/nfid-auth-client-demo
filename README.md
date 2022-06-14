@@ -30,7 +30,7 @@ Breaking down the authentication steps from the main [index.ts](https://github.c
   const hours = BigInt(24);
   const nanoseconds = BigInt(13500000000000);
 ```
-3. customize your application and and logo (URI encoded)
+3. customize your application name and logo (URI encoded)
 ```
   const APPLICATION_NAME = "Your%20Application%20Name";
   const APPLICATION_LOGO_URL = "https%3A%2F%2Flogo.clearbit.com%2Fclearbit.com";
@@ -90,9 +90,9 @@ pub fn whoami() -> Principal { ic_cdk::api::caller() }
 
 On the frontend, you may call `identity?.getPrincipal().toText()` to retrieve this user's unique identifier.
 
-## Setting up for local development
+## Setting up this project locally
 
-To get started, start a local dfx development environment in this directory with the following steps:
+Clone this repo and start a local dfx development environment in this directory with the following steps:
 
 ```bash
 cd nfid-auth-client-demo/
