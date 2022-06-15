@@ -62,6 +62,8 @@ authClient.idleManager?.registerCallback(() => {
 ```js
   const APPLICATION_NAME = "Your%20Application%20Name";
   const APPLICATION_LOGO_URL = "https%3A%2F%2Flogo.clearbit.com%2Fclearbit.com";
+
+  const AUTH_PATH = "/authenticate/?applicationName="+APPLICATION_NAME+"&applicationLogo="+APPLICATION_LOGO_URL+"#authorize";
 ```
 4. initialize a login click handler 
 ```js
