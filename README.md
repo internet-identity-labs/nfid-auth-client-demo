@@ -24,11 +24,39 @@ Breaking down the authentication steps from the main [index.ts](https://github.c
     handleAuthenticated(authClient);
   }
 ```
+> **_NOTE:_**  AuthClient automatically signs the user out after 10 minutes of inactivity
+To disable idle timeouts, pass AuthClient this option during creation:
+```js
+AuthClient.create({idleOptions: {disableIdle: true}})
+```
+To set a different timeout time than the 10 minute default:
+```js
+AuthClient.create({idleOptions: {idleTimeout: timeoutDurationInMS}})
+```
+To allow scrolling to reset idleTimeout (false by default):
+```js
+AuthClient.create({idleOptions: {captureScroll: true}})
+```
+Debounce is set to 100ms when scrolling to reset idleTimeout is enabled, but can be changed:
+```js
+AuthClient.create({idleOptions: {scrollDebounce: timeInMS}})
+```
+To register a callback function when a user times out:
+```js
+AuthClient.create({idleOptions: {onIdle: callbackFunction}})
+
+// in this repo, you will find that we instead registerCallback
+// from the handleAuthenticated function like this
+authClient.idleManager?.registerCallback(() => {
+  Actor.agentOf(whoami_actor)?.invalidateIdentity?.();
+  renderIndex();
+});
+```
 2. prepare maxTimeToLive for the identity delegate of up to 30 days
 ```js
-  const days = BigInt(1);
+  const days = BigInt(30);
   const hours = BigInt(24);
-  const nanoseconds = BigInt(13500000000000);
+  const nanosecondsPerHour = BigInt(3600000000000);
 ```
 3. customize your application name and logo (URI encoded)
 ```js
@@ -47,7 +75,7 @@ Breaking down the authentication steps from the main [index.ts](https://github.c
           ? "https://nfid.one" + AUTH_PATH
           : process.env.LOCAL_NFID_CANISTER + AUTH_PATH,
       // Maximum authorization expiration is 30 days
-      maxTimeToLive: days * hours * nanoseconds,
+      maxTimeToLive: days * hours * nanosecondsPerHour,
       windowOpenerFeatures: 
         `left=${window.screen.width / 2 - 200}, `+
         `top=${window.screen.height / 2 - 300},` +
@@ -65,6 +93,7 @@ async function handleAuthenticated(authClient: AuthClient) {
     },
   });
   // Invalidate identity then render login when user goes idle
+  // This is unnecessary if you disable idleTimeout
   authClient.idleManager?.registerCallback(() => {
     Actor.agentOf(whoami_actor)?.invalidateIdentity?.();
     // user has idled out - render your loggedOut logic
@@ -74,7 +103,10 @@ async function handleAuthenticated(authClient: AuthClient) {
 }
 ```
 
-You've now bootstrapped a `whoami` actor! With this actor, you can make authenticated calls to your backend and retrieve the user's unique identifier for your app:
+You've now bootstrapped a `whoami` actor! 
+> **_NOTE:_**  This actor cannot make authenticated calls in your local environment unless NFID is installed locally. See `Making authenticated calls in your local replica` section for instructions.
+
+With this actor, you can make authenticated calls to your backend and retrieve the user's unique identifier for your app:
 
 Motoko
 ```
