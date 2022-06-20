@@ -79,8 +79,8 @@ authClient.idleManager?.registerCallback(() => {
       // Maximum authorization expiration is 30 days
       maxTimeToLive: days * hours * nanosecondsPerHour,
       windowOpenerFeatures: 
-        `left=${window.screen.width / 2 - 200}, `+
-        `top=${window.screen.height / 2 - 300},` +
+        `left=${window.screen.width / 2 - 525 / 2}, `+
+        `top=${window.screen.height / 2 - 705 / 2},` +
         `toolbar=0,location=0,menubar=0,width=525,height=705`
     });
   };
