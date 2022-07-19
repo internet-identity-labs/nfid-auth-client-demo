@@ -81,7 +81,10 @@ authClient.idleManager?.registerCallback(() => {
       windowOpenerFeatures: 
         `left=${window.screen.width / 2 - 525 / 2}, `+
         `top=${window.screen.height / 2 - 705 / 2},` +
-        `toolbar=0,location=0,menubar=0,width=525,height=705`
+        `toolbar=0,location=0,menubar=0,width=525,height=705`,
+      // See https://docs.nfid.one/migrating-domains
+      // for instructions on how to use derivationOrigin
+      // derivationOrigin: "https://<canister_id>.ic0.app"
     });
   };
 ```
