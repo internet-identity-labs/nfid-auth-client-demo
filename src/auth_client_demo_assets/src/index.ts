@@ -36,8 +36,8 @@ const init = async () => {
       // Maximum authorization expiration is 30 days
       maxTimeToLive: days * hours * nanoseconds,
       windowOpenerFeatures: 
-        `left=${window.screen.width / 2 - 200}, `+
-        `top=${window.screen.height / 2 - 300},` +
+        `left=${window.screen.width / 2 - 525}, `+
+        `top=${window.screen.height / 2 - 705},` +
         `toolbar=0,location=0,menubar=0,width=525,height=705`,
       // See https://docs.nfid.one/migrating-domains
       // for instructions on how to use derivationOrigin
