@@ -25,10 +25,16 @@ Breaking down the authentication steps from the main [index.ts](https://github.c
   }
 ```
 > **_NOTE:_**  AuthClient automatically signs the user out after 10 minutes of inactivity
+
 To disable idle timeouts, pass AuthClient this option during creation:
 ```js
 AuthClient.create({idleOptions: {disableIdle: true}})
 ```
+To disable default idle behavior (logging out and reloading window):
+```js
+AuthClient.create({idleOptions: {disableDefaultIdleCallback: true}})
+```
+> **_NOTE:_** Use disableIdle and disableDefaultIdleCallback to fully disable this feature
 To set a different timeout time than the 10 minute default:
 ```js
 AuthClient.create({idleOptions: {idleTimeout: timeoutDurationInMS}})
