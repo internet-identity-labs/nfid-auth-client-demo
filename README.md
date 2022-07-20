@@ -35,6 +35,7 @@ To disable default idle behavior (logging out and reloading window):
 AuthClient.create({idleOptions: {disableDefaultIdleCallback: true}})
 ```
 > **_NOTE:_** Use disableIdle and disableDefaultIdleCallback to fully disable this feature
+
 To set a different timeout time than the 10 minute default:
 ```js
 AuthClient.create({idleOptions: {idleTimeout: timeoutDurationInMS}})
