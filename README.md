@@ -145,9 +145,7 @@ dfx deploy
 
 ### Authenticated calls in your local replica
 
-At present, the Internet Computer's signatures don't allow actors created in production to make authenticated calls locally.
-
-If you want to make authenticated calls on your local replica, you will need the [NFID-SDK](https://github.com/internet-identity-labs/NFID-SDK) repo cloned locally, adjacent to this project. 
+> **_NOTE:_**  At present, the Internet Computer's signatures don't allow actors created in production to make authenticated calls locally. If you want to make authenticated calls on your local replica, you will need the [NFID-SDK](https://github.com/internet-identity-labs/NFID-SDK) repo cloned locally, adjacent to this project. Skip this step if you don't need authenticated calls in your local replica!
 
 ```bash
 cd ../nfid-sdk
@@ -160,9 +158,9 @@ yarn deploy:local
 yarn serve:nfid-frontend
 ```
 
-### Enabling QR code support in local development
+#### Enabling QR code support in local development
 
-At present, we only support webauthn as a means of registering and authenticating with private keys. Because this complicates the UX for adding new devices, we've chosen to encourage users first register their most important device - their phone - by scanning a QR code displayed on non-mobile devices.
+> **_NOTE:_**  At present, we only support webauthn as a means of registering and authenticating with private keys. Because this complicates the UX for adding new devices, we've chosen to encourage users first register their most important device - their phone - by scanning a QR code displayed on non-mobile devices.
 
 Apple, Google, and Microsoft announced in May 2022 their upcoming support for passkeys, which has a similar flow and will decrease complexity of the NFID registration process once fully released.
 
