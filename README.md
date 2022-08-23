@@ -4,8 +4,6 @@
 
 This is an example project, intended to demonstrate how an app developer might integrate with [NFID](https://nfid.one).
 
-For a non-typescript implementation, see https://github.com/internet-identity-labs/nfid-auth-client-demo/tree/vanilla-js
-
 [Live demo on Kinic](https://kinic.io/)
 
 To learn more before you start working with auth_demo, it may be helpful to review the [Internet Computer documentation](https://internetcomputer.org/docs/current/developer-docs/ic-overview).
