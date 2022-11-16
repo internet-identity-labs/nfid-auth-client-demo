@@ -8,9 +8,13 @@ const network =
   process.env.DFX_NETWORK ||
   (process.env.NODE_ENV === "production" ? "ic" : "local");
 
-// Replace this value with the ID of your local Internet Identity canister
-const LOCAL_II_CANISTER =
-  "http://rkp4c-7iaaa-aaaaa-aaaca-cai.localhost:8000/#authorize";
+// Replace this value with the ID of your local NFID canister
+const LOCAL_NGROK_TUNNEL_DOMAIN =
+"https://461f5dd42f52.ngrok.io";
+// "https://nfid.one";
+
+const LOCAL_NFID_CANISTER =
+LOCAL_NGROK_TUNNEL_DOMAIN;
 
 function initCanisterEnv() {
   let localCanisters, prodCanisters;
@@ -100,7 +104,7 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
-      LOCAL_II_CANISTER,
+      LOCAL_NFID_CANISTER,
       DFX_NETWORK: network,
       ...canisterEnvVariables,
     }),
@@ -113,7 +117,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:8000",
+        target: "http://127.0.0.1:8000",
         changeOrigin: true,
         pathRewrite: {
           "^/api": "/api",
